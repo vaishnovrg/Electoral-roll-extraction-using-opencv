@@ -4,7 +4,7 @@ Created on Wed Dec 25 15:23:16 2019
     
 @author: vaishnov
 """
-def process_data(input_data):
+def process_data(input_file):
     import numpy as np
     import pandas as pd
     import cv2
@@ -12,17 +12,18 @@ def process_data(input_data):
     import pytesseract
     from PIL import Image as im
     import glob
+    import os
       
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd =r"C:\Users\rgvaish\AppData\Local\Tesseract-OCR\tesseract.exe"
     simple_list = []
     
-    '''
-    with Image(filename=input_data, resolution=300) as img:
+    
+    with Image(filename=input_file, resolution=300) as img:
         img.background_color = Color("white")
         img.alpha_channel = 'remove'
-        img.save(filename='image.png')'''
+        img.save(filename='image.png')
         
-    l = len(glob.glob('E:/ML/elction roll/'+'*.png'))    
+    l = len(glob.glob(os.getcwd()+'\\'+'*.png'))    
     for i in range(0,l):
         inp = 'image-'+str(l-l+i)+'.png'
         img = cv2.imread(inp)
@@ -48,9 +49,9 @@ def process_data(input_data):
                          
                         # perform the actual resizing of the image and show it
                         #resized = cv2.resize(img1, dim, interpolation = cv2.INTER_AREA)
-                        #cv2.imshow("resized", img1)
-                        #cv2.waitKey(0)
-                        #cv2.destroyAllWindows()
+                        cv2.imshow("resized", img1)
+                        cv2.waitKey(0)
+                        cv2.destroyAllWindows()
                                 
                         
                         text = pytesseract.image_to_string(img1)
@@ -69,7 +70,7 @@ def process_data(input_data):
                             Mother = []
                             
                             for i in range(0,len(new1)):
-                                
+                                print(new1[i])
                                 if ('Name' in new1[i]) and (str(new1[i]).split(':')[0].strip() == 'Name'):
                                     #print(name)
                                     if len(str(new1[i]).split(':')[1].strip().split(' ')) == 2:
@@ -102,14 +103,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' '))                                    
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -143,9 +156,9 @@ def process_data(input_data):
                  
                         # perform the actual resizing of the image and show it
                         #resized = cv2.resize(img1, dim, interpolation = cv2.INTER_AREA)
-                        #cv2.imshow("resized", img1)
-                        #cv2.waitKey(0)
-                        #cv2.destroyAllWindows()
+                        cv2.imshow("resized", img1)
+                        cv2.waitKey(0)
+                        cv2.destroyAllWindows()
                         
                 
                         text = pytesseract.image_to_string(img1)
@@ -164,7 +177,7 @@ def process_data(input_data):
                             Mother = []
                     
                             for i in range(0,len(new1)):
-                                #print(new1[i])
+                                print(new1[i])
                                 if ('Name' in new1[i]) and (str(new1[i]).split(':')[0].strip() == 'Name'):
                                     if len(str(new1[i]).split(':')[1].strip().split(' ')) == 2:
                                         First_name.append(str(new1[i]).split(':')[1].strip().split(' ')[0])
@@ -196,15 +209,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' '))  
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
-                                
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])    
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -292,14 +316,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])   
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -386,14 +422,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])    
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -481,14 +529,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])                               
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                               
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -575,14 +635,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])    
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -669,14 +741,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])     
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -763,14 +847,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])   
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -857,14 +953,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])    
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -951,14 +1059,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])    
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -1045,14 +1165,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])     
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -1139,14 +1271,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1]) 
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -1233,14 +1377,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1]) 
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -1327,14 +1483,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1]) 
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -1421,14 +1589,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])   
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -1515,14 +1695,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])   
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -1609,14 +1801,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])  
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -1703,14 +1907,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])  
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -1797,14 +2013,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1]) 
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
@@ -1892,14 +2120,26 @@ def process_data(input_data):
                                         if 'Photo' in House:
                                             House.append(str(House).replace('Photo is',' ')) 
                                 elif 'Wife' in new1[i]:
-                                    Wife.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Wife.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])      
                                 elif 'Husband' in new1[i]:
-                                    Husband.append(str(new1[i]).split(':')[1])
+                                    if 'Name >' in new1[i]:
+                                        Husband.append(str(new1[i]).split('>')[1])
+                                    elif 'Name :' in new1[i]:
+                                        Husband.append(str(new1[i]).split(':')[1])  
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])                                         
                                 elif 'Mother' in new1[i]:
                                     if 'Name :' in new1[i]:
                                         Mother.append(str(new1[i]).split(':')[1])
                                     elif 'Name >' in new1[i]:
-                                        Mother.append(str(new1[i]).split('>')[1])    
+                                        Mother.append(str(new1[i]).split('>')[1])   
+                                    elif 'Name:' in new1[i]:
+                                        Wife.append(str(new1[i]).split(':')[1])  
                                 elif 'Age' in new1[i]:  
                                     Age.append(str(new1[i]).split(' ')[1])
                                     Gender.append(str(new1[i]).split(' ')[3])
