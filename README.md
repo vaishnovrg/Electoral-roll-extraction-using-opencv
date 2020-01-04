@@ -1,7 +1,9 @@
 ELECTRONIC ROLL EXTRACTION USING OPENCV - python
 
-Requirements
+Requirements 
+
 -> Python 3.3+ 
+
 -> Windows
 
 This project aims to extract voter information presented in election roll with great accuracy. 
